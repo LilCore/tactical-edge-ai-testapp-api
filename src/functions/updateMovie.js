@@ -7,17 +7,7 @@ module.exports.handler = async (event, context) => {
   try {
     await connect();
     const { id, ...params } = JSON.parse(event.body);
-    console.log(params);
-    const updatedMovie = await Movie.findOneAndUpdate(
-      { _id: id },
-      params,
-      //   {
-      //   new: true,
-      //   runValidators: true,
-      //   context: 'query',
-      // }
-    );
-    console.log(updatedMovie);
+    const updatedMovie = await Movie.findOneAndUpdate({ _id: id }, params);
     return {
       statusCode: 201,
       body: JSON.stringify({

@@ -8,9 +8,6 @@ module.exports.handler = async (event, context) => {
     const { file, key } = JSON.parse(event.body);
     const Body = Buffer.from(file, 'base64');
 
-    console.log({ Body });
-    // return '';
-
     const Key = key.replaceAll(' ', '');
     const params = {
       Body,
@@ -18,7 +15,6 @@ module.exports.handler = async (event, context) => {
       Key,
       // ACL: 'public-read'
     };
-    console.log({ params });
 
     const result = await s3
       .putObject(params, function (err, data) {

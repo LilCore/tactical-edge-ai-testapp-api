@@ -5,7 +5,6 @@ module.exports.handler = async (event, context) => {
   context.callbackWaitsForEmptyEventLoop = false;
 
   try {
-    // console.log(event.requestContext.authorizer.lambda);
     await connect();
     const { title, publishingYear, poster, userId } = JSON.parse(event.body);
     const params = {

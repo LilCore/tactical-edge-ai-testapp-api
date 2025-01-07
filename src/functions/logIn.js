@@ -15,14 +15,9 @@ module.exports.handler = async (event, context, callback) => {
       email,
       password,
     };
-    console.log(params);
-    console.log({ email });
     const user = await User.findOne({ email });
-    console.log(user);
 
     if (!user) throw new Error('User not found');
-
-    console.log(user.password);
 
     const passwordIsValid = await bcrypt.compare(password, user.password);
 
@@ -30,10 +25,7 @@ module.exports.handler = async (event, context, callback) => {
 
     if (!passwordIsValid) throw new Error('Invalid password');
 
-    console.log({ eee: AUTH_SECRET_KEY });
-
     const token = signJwt({ email });
-    console.log({ token });
 
     return {
       statusCode: 201,

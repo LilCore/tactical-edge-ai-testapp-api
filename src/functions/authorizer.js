@@ -5,7 +5,6 @@ const AUTH_SECRET_KEY = process.env.AUTH_SECRET_KEY;
 module.exports.handler = async (event, context, callback) => {
   try {
     // Extract the Authorization header
-    // console.log(event.headers);
     const tokenBearer = event.headers?.authorization;
     const token = tokenBearer?.replace('Bearer ', '');
     console.log({ token });
