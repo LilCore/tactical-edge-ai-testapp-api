@@ -1,0 +1,100 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: gregpersonal
+# "app" enables Serverless Framework Dashboard features and sharing them with other Services.
+app: testapp-api
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: testapp-api
+
+params:
+  default:
+    DB_URI: ${env:DB_URI, file(./env/${sls:stage}-env.yml):DB_URI}
+    AUTH_SECRET_KEY: ${env:AUTH_SECRET_KEY, file(./env/${sls:stage}-env.yml):AUTH_SECRET_KEY}
+    FILES_BUCKET: ${env:FILES_BUCKET, file(./env/${sls:stage}-env.yml):FILES_BUCKET}
+    AWS_ACCESS_KEY_ID: ${env:AWS_ACCESS_KEY_ID, file(./env/${sls:stage}-env.yml):AWS_ACCESS_KEY_ID}
+    AWS_SECRET_ACCESS_KEY: ${env:AWS_SECRET_ACCESS_KEY, file(./env/${sls:stage}-env.yml):AWS_SECRET_ACCESS_KEY}
+
+plugins:
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  environment:
+    DB_URI: ${param:DB_URI}
+    AUTH_SECRET_KEY: ${param:AUTH_SECRET_KEY}
+    FILES_BUCKET: ${param:FILES_BUCKET}
+    AWS_ACCESS_KEY_ID: ${param:AWS_ACCESS_KEY_ID}
+    AWS_SECRET_ACCESS_KEY: ${param:AWS_SECRET_ACCESS_KEY}
+
+custom:
+  serverless-offline:
+    httpPort: 3030 # Specify the port you want to use
+
+functions:
+  test:
+    handler: src/functions/test.handler
+    events:
+      - httpApi:
+          path: /test
+          method: get
+  authorizer:
+    handler: src/functions/authorizer.handler
+    events:
+      - httpApi:
+          path: /authorizer
+          method: get
+  login:
+    handler: src/functions/logIn.handler
+    events:
+      - httpApi:
+          path: /login
+          method: POST
+  createUser:
+    handler: src/functions/createUser.handler
+    timeout: 20
+    events:
+      - httpApi:
+          path: /createUser
+          method: POST
+  getUser:
+    handler: src/functions/getUser.handler
+    timeout: 20
+    events:
+      - httpApi:
+          path: /user
+          method: POST
+  createMovie:
+    handler: src/functions/createMovie.handler
+    timeout: 20
+    events:
+      - httpApi:
+          path: /createMovie
+          method: POST
+  updateMovie:
+    handler: src/functions/updateMovie.handler
+    timeout: 20
+    events:
+      - httpApi:
+          path: /updateMovie
+          method: POST
+  getAllUserMovies:
+    handler: src/functions/getAllUserMovies.handler
+    timeout: 20
+    events:
+      - httpApi:
+          path: /getAllUserMovies
+          method: POST
+  getMovie:
+    handler: src/functions/getMovie.handler
+    timeout: 20
+    events:
+      - httpApi:
+          path: /getMovie
+          method: POST
+  sendDataToS3:
+    handler: src/functions/sendDataToS3.handler
+    timeout: 20
+    events:
+      - httpApi:
+          path: /sendDataToS3
+          method: POST
