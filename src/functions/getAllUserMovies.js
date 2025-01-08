@@ -8,14 +8,14 @@ module.exports.handler = async (event, context) => {
     await connect();
     const { userId } = JSON.parse(event.body);
 
-    const movie = await Movie.find({ userId });
+    const movies = await Movie.find({ userId });
 
     return {
       statusCode: 200,
       body: JSON.stringify({
         success: true,
         message: 'Successfully retrieved all movies',
-        data: movie,
+        data: movies,
       }),
     };
   } catch (err) {
