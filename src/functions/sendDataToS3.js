@@ -1,4 +1,3 @@
-const axios = require('axios');
 const AWS = require('aws-sdk');
 
 module.exports.handler = async (event, context) => {

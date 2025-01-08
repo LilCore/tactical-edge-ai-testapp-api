@@ -10,8 +10,8 @@ params:
     DB_URI: ${env:DB_URI, file(./env/${sls:stage}-env.yml):DB_URI}
     AUTH_SECRET_KEY: ${env:AUTH_SECRET_KEY, file(./env/${sls:stage}-env.yml):AUTH_SECRET_KEY}
     FILES_BUCKET: ${env:FILES_BUCKET, file(./env/${sls:stage}-env.yml):FILES_BUCKET}
-    AWS_ACCESS_KEY_ID: ${env:AWS_ACCESS_KEY_ID, file(./env/${sls:stage}-env.yml):AWS_ACCESS_KEY_ID}
-    AWS_SECRET_ACCESS_KEY: ${env:AWS_SECRET_ACCESS_KEY, file(./env/${sls:stage}-env.yml):AWS_SECRET_ACCESS_KEY}
+    # AWS_ACCESS_KEY_ID: ${env:AWS_ACCESS_KEY_ID, file(./env/${sls:stage}-env.yml):AWS_ACCESS_KEY_ID}
+    # AWS_SECRET_ACCESS_KEY: ${env:AWS_SECRET_ACCESS_KEY, file(./env/${sls:stage}-env.yml):AWS_SECRET_ACCESS_KEY}
 
 plugins:
   - serverless-offline
@@ -19,12 +19,17 @@ plugins:
 provider:
   name: aws
   runtime: nodejs20.x
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:PutObject
+      Resource: arn:aws:s3:::testapp-files-bucket/*
   environment:
     DB_URI: ${param:DB_URI}
     AUTH_SECRET_KEY: ${param:AUTH_SECRET_KEY}
     FILES_BUCKET: ${param:FILES_BUCKET}
-    AWS_ACCESS_KEY_ID: ${param:AWS_ACCESS_KEY_ID}
-    AWS_SECRET_ACCESS_KEY: ${param:AWS_SECRET_ACCESS_KEY}
+    # AWS_ACCESS_KEY_ID: ${param:AWS_ACCESS_KEY_ID}
+    # AWS_SECRET_ACCESS_KEY: ${param:AWS_SECRET_ACCESS_KEY}
 
 custom:
   serverless-offline:
